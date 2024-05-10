@@ -1,0 +1,275 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyM++pEyHWHzpaSGLG+L1tW4",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/LucasPHP99/Portfolio/blob/main/Primeiro_chatbot_Gemini\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "instalando o SDK do Google\n"
+      ],
+      "metadata": {
+        "id": "noiXZG5MCBFD"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "2zKSY7Mu_zNq"
+      },
+      "outputs": [],
+      "source": [
+        "!pip install -q -U google-generativeai"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import google.generativeai as genai\n",
+        "\n",
+        "GOOGLE_API_KEY=('Yourkey')\n",
+        "genai.configure(api_key=GOOGLE_API_KEY)"
+      ],
+      "metadata": {
+        "id": "ftpDkBFeCdBq"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Listar os modelos disponíveis"
+      ],
+      "metadata": {
+        "id": "CmwdabQECoeL"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "for m in genai.list_models():\n",
+        "  if 'generateContent' in m.supported_generation_methods:\n",
+        "    print(m.name)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 139
+        },
+        "id": "ZKdNHPj6ClpJ",
+        "outputId": "5cb9766f-ccc2-4f33-83f7-e5088e5cb2ac"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "models/gemini-1.0-pro\n",
+            "models/gemini-1.0-pro-001\n",
+            "models/gemini-1.0-pro-latest\n",
+            "models/gemini-1.0-pro-vision-latest\n",
+            "models/gemini-1.5-pro-latest\n",
+            "models/gemini-pro\n",
+            "models/gemini-pro-vision\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "generation_config = {\n",
+        "    \"candidate_count\": 1,\n",
+        "    \"temperature\": 0.5,\n",
+        "}"
+      ],
+      "metadata": {
+        "id": "wpkZzSTxFqZe"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "safety_settings = {\n",
+        "    \"HARASSMENT\": \"BLOCK_NONE\",\n",
+        "    \"HATE\": \"BLOCK_NONE\",\n",
+        "    \"SEXUAL\": \"BLOCK_NONE\",\n",
+        "    \"DANGEROUS\": \"BLOCK_NONE\",\n",
+        "}"
+      ],
+      "metadata": {
+        "id": "MJxAEEwhGXJj"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Inicializando o modelo"
+      ],
+      "metadata": {
+        "id": "ZlF_jGfqHuWQ"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "model = genai.GenerativeModel(model_name=\"gemini-1.0-pro\",\n",
+        "                              generation_config=generation_config,\n",
+        "                              safety_settings=safety_settings)"
+      ],
+      "metadata": {
+        "id": "faHBUVIaHxKU"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "response = model.generate_content(\"Vamos aprender conteúdo sobre IA. Me de sugestões.\")\n",
+        "print(response.text)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 763
+        },
+        "id": "LnmTXkZnIxkC",
+        "outputId": "5f332aca-3c6d-4a4f-a090-3e73d17bc166"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "**Conceitos Fundamentais**\n",
+            "\n",
+            "* O que é Inteligência Artificial (IA)?\n",
+            "* Tipos de IA: Aprendizado de Máquina, Aprendizado Profundo, Processamento de Linguagem Natural (PNL)\n",
+            "* Algoritmos de IA: Redes Neurais, Árvores de Decisão, Máquinas de Vetores de Suporte (SVMs)\n",
+            "\n",
+            "**Aprendizado de Máquina**\n",
+            "\n",
+            "* Aprendizado Supervisionado vs. Não Supervisionado\n",
+            "* Algoritmos de Regressão e Classificação\n",
+            "* Avaliação de Modelos de Aprendizado de Máquina\n",
+            "\n",
+            "**Aprendizado Profundo**\n",
+            "\n",
+            "* Redes Neurais Convolucionais (CNNs)\n",
+            "* Redes Neurais Recorrentes (RNNs)\n",
+            "* Redes Neurais de Transformadores\n",
+            "\n",
+            "**Processamento de Linguagem Natural (PNL)**\n",
+            "\n",
+            "* Tokenização, Stemming e Lematização\n",
+            "* Modelagem de Linguagem\n",
+            "* Análise de Sentimento\n",
+            "\n",
+            "**Aplicações da IA**\n",
+            "\n",
+            "* Reconhecimento de Imagem e Vídeo\n",
+            "* Processamento de Linguagem Natural (PNL)\n",
+            "* Previsão e Análise\n",
+            "* Automação e Robótica\n",
+            "\n",
+            "**Implicações Éticas e Sociais**\n",
+            "\n",
+            "* Preconceito em IA\n",
+            "* Privacidade e Segurança\n",
+            "* Implicações para o Emprego\n",
+            "\n",
+            "**Recursos de Aprendizado**\n",
+            "\n",
+            "* Cursos Online: Coursera, edX, Udacity\n",
+            "* Livros: \"Inteligência Artificial: Uma Abordagem Moderna\" por Stuart Russell e Peter Norvig\n",
+            "* Tutoriais: TensorFlow, PyTorch, Keras\n",
+            "* Comunidades Online: Reddit, Stack Overflow, GitHub\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "chat = model.start_chat(history=[])"
+      ],
+      "metadata": {
+        "id": "AqveLrIBJTkF"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "prompt = input(\"Esperando prompt: \")\n",
+        "\n",
+        "while prompt != \"fim\":\n",
+        "  response = chat.send_message(prompt)\n",
+        "  print(\"Resposta: \", response.text, \"\\n\")\n",
+        "  prompt = input(\"Esperando prompt: \")"
+      ],
+      "metadata": {
+        "id": "RPGLqhrZJxCS"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Melhorando a visualização\n",
+        "#Código disponível em https://ai.google.dev/tutorials/python_quickstart#import_packages\n",
+        "import textwrap\n",
+        "from IPython.display import display\n",
+        "from IPython.display import Markdown\n",
+        "\n",
+        "def to_markdown(text):\n",
+        "  text = text.replace('•', '  *')\n",
+        "  return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))\n",
+        "\n",
+        "#Imprimindo o histórico\n",
+        "for message in chat.history:\n",
+        "  display(to_markdown(f'**{message.role}**: {message.parts[0].text}'))\n",
+        "  print('-------------------------------------------')"
+      ],
+      "metadata": {
+        "id": "39mIiiRaNTLr"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
